@@ -5,14 +5,14 @@ define("MAXPOSITION", 10);
 $baseCurrency = 4; // Chaos
 $league = 'Bestiary';
 $currencies = [
-	'1' => 'Alt',
-	'2' => 'Fus',
-	'3' => 'Alch',
 	'5' => 'Gcp',
-	'7' => 'Chroma',
-	'8' => 'Jew',
-	'9' => 'Chance',
 	'10' => 'Chisel',
+	'1' => 'Alt',
+	'9' => 'Chance',
+	'3' => 'Alch',
+	'8' => 'Jew',
+	'2' => 'Fus',
+	'7' => 'Chroma',
 	'11' => 'Scour',
 	'13' => 'Regret',
 	'16' => 'Vaal',
@@ -22,8 +22,8 @@ $currencies = [
 ];
 
 $allOffers = [
-	'buy' => [],
-	'sell' => []
+	'sell' => [],
+	'buy' => []
 ];
 
 foreach($currencies as $currencyKey => $currency) {
