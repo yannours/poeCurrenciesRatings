@@ -1,77 +1,131 @@
 <?php
 
-define("MAXPOSITION", 10);
+define("BASECURRENCY", 4); // Chaos
+define("LEAGUE", "Bestiary"); // Chaos
 
-$baseCurrency = 4; // Chaos
-$league = 'Bestiary';
+$username = "saltan";
 $currencies = [
-	'5' => 'Gcp',
-	'10' => 'Chisel',
-	'1' => 'Alt',
-	'9' => 'Chance',
-	'3' => 'Alch',
-	'8' => 'Jew',
-	'2' => 'Fus',
-	'7' => 'Chroma',
-	'11' => 'Scour',
-	'13' => 'Regret',
-	'16' => 'Vaal',
-	'45' => 'White sext',
-	'46' => 'Yellow sext',
-	'47' => 'Red sext',
+  ['key' => '5', 'name' => 'Gcp'],
+  ['key' => '10', 'name' => 'Chisel'],
+  ['key' => '1', 'name' => 'Alt'],
+  ['key' => '9', 'name' => 'Chance'],
+  ['key' => '3', 'name' => 'Alch'],
+  ['key' => '8', 'name' => 'Jew'],
+  ['key' => '2', 'name' => 'Fus'],
+  ['key' => '7', 'name' => 'Chroma'],
+  ['key' => '11', 'name' => 'Scour'],
+  ['key' => '13', 'name' => 'Regret'],
+  ['key' => '16', 'name' => 'Vaal'],
+  ['key' => '45', 'name' => 'White sext'],
+  ['key' => '46', 'name' => 'Yellow sext'],
+  ['key' => '47', 'name' => 'Red sext'],
 ];
 
-$allOffers = [
-	'sell' => [],
-	'buy' => []
-];
+$allOffers = [];
 
-foreach($currencies as $currencyKey => $currency) {
-	$allOffers['sell'][$currency] = getOffer($currencyKey, $baseCurrency);
-	$allOffers['buy'][$currency] = getOffer($baseCurrency, $currencyKey);
+foreach($currencies as $currency) {
+	$allOffers['sell'][$currency['key']] = ['currency' => $currency, 'offers' => getOffers($currency, 'sell')];
+	$allOffers['buy'][$currency['key']] = ['currency' => $currency, 'offers' => getOffers($currency, 'buy')];
 }
 
-generateExcel($allOffers);
+generateHtml($allOffers, $username);
 
-function getOffer ($want, $have, $maxPosition = MAXPOSITION) {
+function getOffers ($currency, $offerType) {
 
-	$html = file_get_contents('http://currency.poe.trade/search?league=Bestiary&online=x&want='.$want.'&have='.$have);
+	$offers = [];
+
+	if ($offerType === 'sell') {
+		$want = $currency['key'];
+		$have = BASECURRENCY;
+	} else {
+		$want = BASECURRENCY;
+		$have = $currency['key'];
+	}
+
+	$html = file_get_contents('http://currency.poe.trade/search?league='.LEAGUE.'&online=x&want='.$want.'&have='.$have);
 
 	$doc = new DOMDocument;
 	$doc->loadHTML($html);
 
 	$xpath = new DOMXpath($doc);
-	$rows = $xpath->query('//div[@class = "displayoffer " and position() <= '.$maxPosition.']');
-	$allOffers = [];
+	$rows = $xpath->query('//div[@class = "displayoffer "]');
 	foreach ($rows as $row) {
-		// var_dump($row);
-		$allOffers[] = [
+		$offers[] = [
 			'seller' => $row->getAttribute('data-username'),
 			'price' => number_format($row->getAttribute('data-buyvalue')/$row->getAttribute('data-sellvalue'),3),
 			'offer' => number_format($row->getAttribute('data-buyvalue'),1).'/'.number_format($row->getAttribute('data-sellvalue'),1)
 		];
 	}
 
-	return $allOffers;
+	return $offers;
 }
 
 
-function generateExcel ($allOffers) {
-	$string = '';
+function generateHtml ($allOffers, $username) {
+	$string = '<h1>POE Currencies Ratings</h1>'.PHP_EOL.PHP_EOL;
 
-	foreach ($allOffers as $offerType => $offers) {
-		$string .= PHP_EOL.$offerType.PHP_EOL;
+	foreach ($allOffers as $offerType => $currenciesOffers) {
 
-		foreach ($offers as $currency => $currencyOffers) {
-			$string .= $currency.';;';
-			foreach ($currencyOffers as $offer) {
-				$string .= $offer['price'].' - '.$offer['offer'].';';
-			}
-			$string .= PHP_EOL;
+		$string .= '<h2>'.$offerType.'</h2>'.PHP_EOL;
+
+		$string .= '<table>'.PHP_EOL;
+
+		$string .= '<tr><th></th>'.PHP_EOL;
+		foreach ($currenciesOffers as $currencyOffers) {
+			$string .= '<th>'.$currencyOffers['currency']['name'].'</th>';
 		}
+		$string .= '</tr>'.PHP_EOL;
+
+		$string .= '<tr><td>4eme offre</td>'.PHP_EOL;
+		foreach ($currenciesOffers as $currencyOffers) {
+			$string .= '<td><b>';
+			$string .= $currencyOffers['offers'][3]['price'].'</b><br/>'.$currencyOffers['offers'][3]['offer'];
+			$string .= '</td>';
+		}
+		$string .= '<tr>'.PHP_EOL;
+
+		$string .= '</tr><td>5eme offre</td>'.PHP_EOL;
+		foreach ($currenciesOffers as $currencyOffers) {
+			$string .= '<td><b>';
+			$string .= $currencyOffers['offers'][4]['price'].'</b><br/>'.$currencyOffers['offers'][4]['offer'];
+			$string .= '</td>';
+		}
+		$string .= '</tr>'.PHP_EOL;
+
+		$string .= '</tr><td>'.$username.'</td>'.PHP_EOL;
+		foreach ($currenciesOffers as $currencyOffers) {
+			$string .= '<td><b>';
+			foreach ($currencyOffers['offers'] as $offer) {
+				if ($offer['seller'] == $username) {
+					$string .= $offer['price'].'</b><br/>'. $offer['offer'];
+				}
+			}
+			$string .= '</td>';
+		}
+		$string .= '</tr>'.PHP_EOL;
+
+		$string .= '</table>'.PHP_EOL;
 	}
 
 
+	// Add style
+	$string = "
+		<style type=\"text/css\">
+			table {
+			 border-collapse:collapse;
+			 width:90%;
+			 }
+			th, td {
+			 border:1px solid black;
+			 }
+			td {
+			 text-align:center;
+			 }
+			caption {
+			 font-weight:bold
+			 }
+		</style>
+	".$string;
 	print_r($string);
 }
 
