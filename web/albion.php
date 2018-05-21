@@ -18,7 +18,7 @@ $recipes = [
 	]
 ];
 
-function getResourcePrices($resourcesTypes, $tiers, rarity = "") {
+function getResourcePrices($resourcesTypes, $tiers, $rarity = "") {
 
 	$resourcePrices = [];
 
