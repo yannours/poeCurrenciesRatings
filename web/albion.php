@@ -13,6 +13,16 @@ $resourcePrices = getResourcePrices($resourcesTypes, $tiers);
 $recipes = [
 	[
 		"Warbow",
+		"2H_BOW",
+		[32,0,0,0]
+	],
+	[
+		"Warbow",
+		"2H_LONGBOW",
+		[32,0,0,0]
+	],
+	[
+		"Warbow",
 		"2H_WARBOW",
 		[32,0,0,0]
 	]
