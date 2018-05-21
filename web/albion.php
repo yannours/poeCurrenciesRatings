@@ -16,7 +16,7 @@ $recipes = [
 		"2H_WARBOW",
 		[32,0,0,0]
 	]
-]
+];
 
 function getResourcePrices($resourcesTypes, $tiers, rarity = "") {
 
