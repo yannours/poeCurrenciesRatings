@@ -36,7 +36,7 @@ function getResourcePrices($resourcesTypes, $tiers, $rarity = "") {
 		}
 	}
 
-	return $resourcePrices
+	return $resourcePrices;
 }
 
 var_dump($resourcePrices);
