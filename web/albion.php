@@ -7,7 +7,7 @@ define('API_URL', "https://www.albion-online-data.com/api/v1/stats/prices/");
 $tiers = ["4","5","6","7","8"];
 $resourcesTypes = ["PLANKS", "METALBAR", "LEATHER", "CLOTH"];
 
-$resourcePrices = getResourcePrices($tiers);
+$resourcePrices = getResourcePrices($resourcesTypes, $tiers);
 
 // Ressources : ["PLANKS", "METALBAR", "LEATHER", "CLOTH"]
 $recipes = [
