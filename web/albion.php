@@ -36,6 +36,7 @@ break 2;
 		}
 	}
 
+	return $resourcePrices;
 }
 
 var_dump($resourcePrices);
