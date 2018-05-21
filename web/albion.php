@@ -14,7 +14,7 @@ $recipes = [
 	[
 		"Warbow",
 		"2H_WARBOW",
-		[,,,]
+		[32,0,0,0]
 	]
 ]
 
