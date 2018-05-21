@@ -1,6 +1,5 @@
 <?php 
-echo "test post php".PHP_EOL;
-$content = "";
+$content = "test post php".PHP_EOL;
 foreach ($_POST as $key => $value)
  $content .= "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value).PHP_EOL;
 
