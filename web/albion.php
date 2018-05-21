@@ -25,18 +25,18 @@ function getResourcePrices($resourcesTypes, $tiers, $rarity = "") {
 	foreach ($resourcesTypes as $resourceType) {
 		foreach ($tiers as $tier) {
 			$requestResult = file_get_contents(API_URL."T".$tier."_".$resourceType);
-			$resourcePrices = json_decode($requestResult);
-break 2;
-			/*foreach ($jsonResults as $result) {
+			$jsonResults = json_decode($requestResult, true);
+
+			foreach ($jsonResults as $result) {
 				if ($result['city'] === MARKET) {
 					$resourcePrices[$resourceType][$tier] = $result['sell_price_min'];
 					break;
 				}
-			}*/
+			}
 		}
 	}
 
-	return $resourcePrices;
+	return $resourcePrices
 }
 
 var_dump($resourcePrices);
