@@ -78,8 +78,8 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $
 		   	if (!empty($resourcesPrices[$refinedResourceType][$tier]) && ! empty($refiningCosts[$refinedResourceType][$tier])) {
 
 				$taxe = ($fullTaxe[$tier] * $taxePercent / 100);
-				// Profit = Selling price * return rate (base on 15% rr) - (resource cost + taxe + selling taxes)
-				$profit = $resourcesPrices[$refinedResourceType][$tier]*1.175 - ($refiningCosts[$refinedResourceType][$tier] + $taxe*1.175 + 1);
+				// Profit = Selling price * return rate (base on 15% rr) * (1- selling taxes) - (resource cost + crafting taxes)
+				$profit = $resourcesPrices[$refinedResourceType][$tier]*1.175*0.97 - ($refiningCosts[$refinedResourceType][$tier] + $taxe*1.175);
 
 				$return[$refinedResourceType][$tier] = [
 					"raw_resource_cost" => $resourcesPrices[$rawResourceType][$tier],

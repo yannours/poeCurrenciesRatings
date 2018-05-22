@@ -4,8 +4,11 @@ require_once("../config.php");
 require_once("../resources/api.php");
 require_once("../resources/pricesCalculation.php");
 
-$resourcesPrices = getApiPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), ["3","4","5","6","7","8"]);
-$refiningCosts = getResourcesRefiningCost($resourcesTypes, ["4","5","6","7","8"], $resourcesPrices);
+$resourcesPrices = getApiPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), ["3","4","5","6"]);
+$refiningCosts = getResourcesRefiningCost($resourcesTypes, ["4","5","6"], $resourcesPrices);
+$refiningProfits = getResourcesRefiningProfit($resourcesTypes, ["4","5","6"], $resourcesPrices, $refiningCosts);
+
+var_dump($refiningProfits);
 
 ?>
 
