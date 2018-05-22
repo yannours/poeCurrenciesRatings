@@ -1,13 +1,11 @@
-<?php 
+<?php
 
-define('RARITY_STRING', "_ORE_LEVEL1@");
-define('MARKET', "Caerleon Market");
-define('API_URL', "https://www.albion-online-data.com/api/v1/stats/prices/");
+
 
 $tiers = ["4","5","6","7","8"];
-$resourcesTypes = ["PLANKS", "METALBAR", "LEATHER", "CLOTH"];
+$refinedResourcesTypes = ["PLANKS", "METALBAR", "LEATHER", "CLOTH"];
 
-$resourcePrices = getResourcePrices($resourcesTypes, $tiers);
+$resourcePrices = getResourcePrices($refinedResourcesTypes, $tiers);
 
 // Ressources : ["PLANKS", "METALBAR", "LEATHER", "CLOTH"]
 $recipes = [
@@ -28,11 +26,11 @@ $recipes = [
 	]
 ];
 
-function getResourcePrices($resourcesTypes, $tiers, $rarity = "") {
+function getResourcePrices($refinedResourcesTypes, $tiers, $rarity = "") {
 
 	$resourcePrices = [];
 
-	foreach ($resourcesTypes as $resourceType) {
+	foreach ($refinedResourcesTypes as $resourceType) {
 		foreach ($tiers as $tier) {
 			$requestResult = file_get_contents(API_URL."T".$tier."_".$resourceType);
 			$jsonResults = json_decode($requestResult, true);
