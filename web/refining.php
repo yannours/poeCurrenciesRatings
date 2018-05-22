@@ -8,7 +8,7 @@ $resourcesPrices = getApiPrices(array_merge(array_keys($resourcesTypes), $resour
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, ["4","5","6"], $resourcesPrices);
 $refiningProfits = getResourcesRefiningProfit($resourcesTypes, ["4","5","6"], $resourcesPrices, $refiningCosts);
 
-var_dump($refiningProfits);
+print_r($refiningProfits);
 
 ?>
 

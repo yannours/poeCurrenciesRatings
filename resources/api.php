@@ -20,6 +20,8 @@
  */
 function getApiPrices($products, $tiers, $rarity = 0) {
 
+	$minDate = date(DATE_ATOM, mktime(date("H")-2, date("m")-20));
+
 	$ch = curl_init();
 	// Disable SSL verification
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -42,7 +44,8 @@ function getApiPrices($products, $tiers, $rarity = 0) {
 			$jsonResults = json_decode($requestResult, true);
 
 			foreach ($jsonResults as $result) {
-				if (!empty($result['sell_price_min']) && $result['city'] === MARKET) {
+				if (!empty($result['sell_price_min']) && $result['city'] === MARKET &&
+						$result['sell_price_min_date'] > date(DATE_ATOM, mktime(date("H"), date("i")-20))) {
 					$prices[$product][$tier] = $result['sell_price_min'];
 					break;
 				}

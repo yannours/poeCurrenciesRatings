@@ -58,7 +58,7 @@ function getResourcesRefiningCost($resourcesTypes, $tiers, $resourcesPrices) {
 *		]
 *	]
 */
-function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $refiningCosts, $taxePercent = 8) {
+function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $refiningCosts, $taxePercent = 22) {
 
    // For tier $key with 100% taxes, you pay $value silver of taxe
    $fullTaxe = [
