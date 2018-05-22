@@ -92,5 +92,5 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $
 	   }
    }
 
-   return $costs;
+   return $return;
 }
