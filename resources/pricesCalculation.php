@@ -86,13 +86,11 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $
 					"refined_resource_cost" => $resourcesPrices[$refinedResourceType][($tier-1)],
 					"selling price" => $resourcesPrices[$refinedResourceType][$tier],
 					"taxe" => $taxe,
-					"profit" => $profit,
-				]
+					"profit" => $profit
+				];
 			}
 	   }
    }
 
    return $costs;
 }
-
-0	30	70	160	320	64	128
