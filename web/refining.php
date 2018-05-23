@@ -1,4 +1,8 @@
 <?php
+/**
+ * This page calculate all refining price and display all the informations used to calculed it.
+ */
+
 
 require_once("../config.php");
 require_once("../resources/api.php");
