@@ -6,6 +6,9 @@
 
 /**
  * Calculate refining cost using only resources price
+ * $resourcesTypes = ["WOOD" => "PLANKS", ...]
+ * $tiers = [1, 3, 5]
+ * $resourcesPrices = based on getApiPrices return
  * return array :
  * 	[
  *		resource1 => [
@@ -46,17 +49,12 @@ function getResourcesRefiningCost($resourcesTypes, $tiers, $resourcesPrices) {
 
 /**
 * Calculate full refining profit
-* return array :
-* 	[
-*		resource1 => [
-*					T4 => 55,
-*					T5 => 95
-*		],
-*		resource2 => [
-*					T4 => 555,
-*					T5 => 955
-*		]
-*	]
+* $resourcesTypes = ["WOOD" => "PLANKS", ...]
+* $tiers = [1, 3, 5]
+* $resourcesPrices = based on getApiPrices return
+* $refiningCosts = based on getResourcesRefiningCost return
+* $taxePercent = taxe in %
+* Return array with all needed informations
 */
 function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $refiningCosts, $taxePercent = 22) {
 
@@ -79,7 +77,9 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $
 
 				$taxe = ($fullTaxe[$tier] * $taxePercent / 100);
 				// Profit = Selling price * return rate (base on 15% rr) * (1- selling taxes) - (resource cost + crafting taxes)
-				$profit = $resourcesPrices[$refinedResourceType][$tier]*1.175*0.97 - ($refiningCosts[$refinedResourceType][$tier] + $taxe*1.175);
+				// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
+				// Return rate : 15% * 15% (Craft with 100 fiber, you got 15 fiber back. Craft with them, you got 2.5 fiver back)
+				$profit = $resourcesPrices[$refinedResourceType][$tier]*1.175*0.96 - ($refiningCosts[$refinedResourceType][$tier] + $taxe*1.175);
 
 				$return[$refinedResourceType][$tier] = [
 					"raw_resource_cost" => $resourcesPrices[$rawResourceType][$tier],
