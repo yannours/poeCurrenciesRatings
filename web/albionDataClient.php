@@ -7,4 +7,4 @@
 
 $post = file_get_contents('php://input');
 
-file_put_contents('post.txt', $post, FILE_APPEND);
+file_put_contents('post.txt', 'post : '.$post.PHP_EOL, FILE_APPEND);
