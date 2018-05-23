@@ -5,6 +5,7 @@
  * More on ADC : https://github.com/broderickhyman/albiondata-client
  */
 
-$post = file_get_contents('php://input');
+//$post = file_get_contents('php://input');
+$post = file_get_contents('../resources/ADCReturnExample.json');
 
-file_put_contents('post.txt', 'post : '.$post.PHP_EOL, FILE_APPEND);
+print_r(json_decode($post));
