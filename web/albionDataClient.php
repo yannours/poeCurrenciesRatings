@@ -6,26 +6,28 @@
  * Site inspired by http://albionassistant.com/calculator.aspx
  */
 
-//$post = file_get_contents('php://input');
-$post = file_get_contents('../resources/ADCReturnExample.json');
+require_once("../resources/ordersManagement.php");
+
+$post = file_get_contents('php://input');
+//$post = file_get_contents('../resources/ADCReturnExample.json');
 $json = json_decode($post, true);
 
 // Decode and save orders
 savePricesToDB($json['Orders']);
 
 $locationsCode = [
-	-1 => Unknown,
-	0 => ThetfordMarket,
-	1000 => LymhurstMarket,
-	2000 => BridgewatchMarket,
-	3003 => BlackMarket,
-	3004 => MartlockMarket,
-	3005 => CaerleonMarket,
-	4000 => FortSterlingMarket,
+	-1 => "Unknown",
+	0 => "ThetfordMarket",
+	1000 => "LymhurstMarket",
+	2000 => "BridgewatchMarket",
+	3003 => "BlackMarket",
+	3004 => "MartlockMarket",
+	3005 => "CaerleonMarket",
+	4000 => "FortSterlingMarket",
 
-	4 => SwampCrossMarket,
-	1006 => ForestCrossMarket,
-	2002 => SteppeCrossMarket,
-	3002 => HighlandCrossMarket,
-	4006 => MountainCrossMarket,
+	4 => "SwampCrossMarket",
+	1006 => "ForestCrossMarket",
+	2002 => "SteppeCrossMarket",
+	3002 => "HighlandCrossMarket",
+	4006 => "MountainCrossMarket",
 ];

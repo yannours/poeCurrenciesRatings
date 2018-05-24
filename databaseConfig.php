@@ -3,7 +3,7 @@
  * Database configuration file
  */
 
-$dbHost = "127.0.0.1";
-$dbUser = "admin";
-$dbPassword = "admin";
-$dbBase = "base";
+define('DB_HOST', "127.0.0.1");
+define('DB_USER', "user");
+define('DB_PASSWORD', "password");
+define('DB_BASE', "base");
