@@ -10,8 +10,8 @@
  *        [0] => Array
  *        	(
  * 		       [Id] => 149385216
- * 		       [ItemTypeId] => T3_FURNITUREITEM_TROPHY_GENERAL
- * 		       [ItemGroupTypeId] => T3_FURNITUREITEM_TROPHY_GENERAL
+ * 		       [ItemTypeId] => T4_ORE_LEVEL2@2
+ * 		       [ItemGroupTypeId] => T4_ORE_LEVEL2
  * 		       [LocationId] => 3005
  * 		       [QualityLevel] => 1
  * 		       [EnchantmentLevel] => 0

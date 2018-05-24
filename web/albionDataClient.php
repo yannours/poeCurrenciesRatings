@@ -8,7 +8,7 @@
 
 //$post = file_get_contents('php://input');
 $post = file_get_contents('../resources/ADCReturnExample.json');
-$json = json_decode($post);
+$json = json_decode($post, true);
 
 // Decode and save orders
 savePricesToDB($json['Orders']);
