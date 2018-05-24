@@ -2,6 +2,7 @@
 /**
  * Landing page of the informations sent by the albion data client.
  * Save the datas to a database
+ * In order to redirect the ADC to this page, launch it with -i="websiteadresse/albionDataClient.php"
  * More on ADC : https://github.com/broderickhyman/albiondata-client
  * Site inspired by http://albionassistant.com/calculator.aspx
  */
