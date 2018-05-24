@@ -4,6 +4,6 @@
  */
 
 define('DB_HOST', "127.0.0.1");
-define('DB_USER', "user");
+define('DB_USER', "saltan");
 define('DB_PASSWORD', "password");
-define('DB_BASE', "base");
+define('DB_BASE', "saltanDev");
