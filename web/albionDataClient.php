@@ -7,7 +7,7 @@
  * Site inspired by http://albionassistant.com/calculator.aspx
  */
 
-require_once("../resources/ordersManagement.php");
+require_once("../resources/pricesHistory.php");
 
 $post = file_get_contents('php://input');
 //$post = file_get_contents('../resources/ADCReturnExample.json');
