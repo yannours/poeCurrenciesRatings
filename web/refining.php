@@ -8,9 +8,9 @@ require_once("../config.php");
 require_once("../resources/pricesHistory.php");
 require_once("../resources/pricesCalculation.php");
 
-$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6]);
-$refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6], $resourcesPrices);
-$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6], $resourcesPrices, $refiningCosts);
+$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], 0);
+$refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
+$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $refiningCosts);
 
 print_r($refiningProfits);
 
