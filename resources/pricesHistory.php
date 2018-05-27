@@ -33,7 +33,7 @@ function savePricesToDB($ordersList) {
 
     foreach ($ordersList as $order) {
 
-        if(empty($prices['ItemGroupTypeId']) or $order['UnitPriceSilver'] < $prices['ItemGroupTypeId']['price']) {
+        if (empty($prices[$order['ItemGroupTypeId']]) or $order['UnitPriceSilver'] < $prices[$order['ItemGroupTypeId']]['price']) {
             $prices[$order['ItemGroupTypeId']] = [
                 'location_id' => $order['LocationId'],
                 'price' => ($order['UnitPriceSilver']/10000)
