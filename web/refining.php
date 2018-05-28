@@ -8,12 +8,12 @@ require_once("../config.php");
 require_once("../resources/pricesHistory.php");
 require_once("../resources/pricesCalculation.php");
 
-$tier = (isset($_GET['tier']) && $_GET['tier'] >= 0 && $_GET['tier'] <= 3) ? $_GET['tier'] : 0 ;
+$rarity = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? $_GET['rarity'] : 0 ;
 $focus = isset($_GET['focus']) ? true : false ;
 $taxe = isset($_GET['taxe']) ? $_GET['taxe'] : 22;
 $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerleon
 
-$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $tier, $location);
+$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $rarity, $location);
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
 $refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $refiningCosts, $taxe, $focus);
 
