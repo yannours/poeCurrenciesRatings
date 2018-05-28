@@ -8,11 +8,14 @@ require_once("../config.php");
 require_once("../resources/pricesHistory.php");
 require_once("../resources/pricesCalculation.php");
 
-$tier = (isset($_GET['tier']) && $_GET['tier'] >= 0 && $_GET['tier'] <= 3) ? $_GET['tier'] : 0;
+$tier = (isset($_GET['tier']) && $_GET['tier'] >= 0 && $_GET['tier'] <= 3) ? $_GET['tier'] : 0 ;
+$focus = isset($_GET['focus']) ? true : false ;
+$taxe = isset($_GET['taxe']) ? $_GET['taxe'] : 22;
+$location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerleon
 
-$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $tier);
-$refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
-$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $refiningCosts);
+$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $tier, $location);
+$refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $taxe);
+$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $refiningCosts, $focus);
 
 print_r($refiningProfits);
 

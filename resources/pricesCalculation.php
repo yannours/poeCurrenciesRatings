@@ -8,7 +8,7 @@
  * Calculate refining cost using only resources price
  * $resourcesTypes = ["WOOD" => "PLANKS", ...]
  * $tiers = [1, 3, 5]
- * $resourcesPrices = based on getApiPrices return
+ * $resourcesPrices = based on getLatestPrices return
  * return array :
  * 	[
  *		resource1 => [
@@ -48,15 +48,16 @@ function getResourcesRefiningCost($resourcesTypes, $tiers, $resourcesPrices) {
 }
 
 /**
-* Calculate full refining profit
+* Calculate full refining profit assuming the resources returned are fully crafted without focus
 * $resourcesTypes = ["WOOD" => "PLANKS", ...]
 * $tiers = [1, 3, 5]
 * $resourcesPrices = based on getApiPrices return
 * $refiningCosts = based on getResourcesRefiningCost return
-* $taxePercent = taxe in %
+* $taxe = taxe in %
+* $focus = (true|false) : is focus used ?
 * Return array with all needed informations
 */
-function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $refiningCosts, $taxePercent = 22) {
+function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $refiningCosts, $taxe, $focus) {
 
    // For tier $key with 100% taxes, you pay $value silver of taxe
    $fullTaxe = [
@@ -75,11 +76,13 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $resourcesPrices, $
 	   foreach ($tiers as $tier) {
 		   	if (!empty($resourcesPrices[$refinedResourceType][$tier]) && ! empty($refiningCosts[$refinedResourceType][$tier])) {
 
-				$taxe = ($fullTaxe[$tier] * $taxePercent / 100);
+				$taxe = ($fullTaxe[$tier] * $taxe / 100);
 				// Profit = Selling price * return rate (base on 15% rr) * (1- selling taxes) - (resource cost + crafting taxes)
 				// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
-				// Return rate : 15% * 15% (Craft with 100 fiber, you got 15 fiber back. Craft with them, you got 2.5 fiver back)
-				$profit = $resourcesPrices[$refinedResourceType][$tier]*1.175*0.96 - ($refiningCosts[$refinedResourceType][$tier] + $taxe*1.175);
+				// Return rate : 45% with focus, 15% without. Assuming the return is fully craft without focus
+				$returnRate = $focus ? 1.53 : 1.175 ;
+				$profit = $resourcesPrices[$refinedResourceType][$tier]*$returnRate*0.96
+					- ($refiningCosts[$refinedResourceType][$tier] + $taxe*$returnRate);
 
 				$return[$refinedResourceType][$tier] = [
 					"raw_resource_cost" => $resourcesPrices[$rawResourceType][$tier],

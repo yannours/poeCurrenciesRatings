@@ -64,12 +64,11 @@ function savePricesToDB($ordersList) {
  *					T4 => 955
  *		]
  *	]
- * $location : Caerleon (3005) by default
  */
-function getLatestPrices($items, $tiers, $rarity = 0, $location = 3005) {
+function getLatestPrices($items, $tiers, $rarity, $location) {
 
     $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
-	$selectStatement = $dbConnection->prepare("SELECT price FROM item_latest_price WHERE item_type = ?");
+	$selectStatement = $dbConnection->prepare("SELECT price FROM item_latest_price WHERE item_type = ? AND location_id = ?");
 
 	$prices = [];
 
@@ -82,7 +81,7 @@ function getLatestPrices($items, $tiers, $rarity = 0, $location = 3005) {
 				$itemType .= RARITY_STRING.$rarity;
 			}
 
-			$selectStatement->execute([$itemType]);
+			$selectStatement->execute([$itemType, $location]);
 			if($price = $selectStatement->fetchColumn()) {
 				$prices[$item][$tier] = $price;
 			}
