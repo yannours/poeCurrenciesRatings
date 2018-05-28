@@ -28,7 +28,7 @@ require_once("../databaseConfig.php");
 function savePricesToDB($ordersList) {
 
     $prices = [];
-    $dbConnection = new PDO("mysql:host=".DB_HOST.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
+    $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
     $insertStatement = $dbConnection->prepare("INSERT INTO item_prices_history (item_type, location_id, price) VALUES(?, ?, ?)");
 
     foreach ($ordersList as $order) {
@@ -68,7 +68,7 @@ function savePricesToDB($ordersList) {
  */
 function getLatestPrices($items, $tiers, $rarity = 0, $location = 3005) {
 
-    $dbConnection = new PDO("mysql:host=".DB_HOST.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
+    $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
 	$selectStatement = $dbConnection->prepare("SELECT price FROM item_latest_price WHERE item_type = ?");
 
 	$prices = [];
