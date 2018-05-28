@@ -7,8 +7,10 @@
 
 require_once("../resources/pricesHistory.php");
 
+
 $post = file_get_contents('php://input');
 $json = json_decode($post, true);
+// file_put_contents('post.txt', print_r($json, true));
 
 // Decode and save orders
 savePricesToDB($json['Orders']);

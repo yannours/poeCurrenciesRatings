@@ -16,7 +16,7 @@ require_once("../databaseConfig.php");
  *             [ItemGroupTypeId] => T4_ORE_LEVEL2
  *             [LocationId] => 3005
  *             [QualityLevel] => 1
- *             [EnchantmentLevel] => 0
+ *             [EnchantmentLevel] => 2
  *             [UnitPriceSilver] => 80000
  *             [Amount] => 60
  *             [AuctionType] => offer
@@ -34,7 +34,13 @@ function savePricesToDB($ordersList) {
     foreach ($ordersList as $order) {
 
         if (empty($prices[$order['ItemGroupTypeId']]) or $order['UnitPriceSilver'] < $prices[$order['ItemGroupTypeId']]['price']) {
-            $prices[$order['ItemGroupTypeId']] = [
+
+        	// For some enchanted items, the "_LEVELX" string is not set
+        	$itemCode = $order['ItemGroupTypeId'];
+        	if ($order['EnchantmentLevel'] > 0 and substr($itemCode, -7, -1) !== '_LEVEL') {
+        		$itemCode .= '_LEVEL'.$order['EnchantmentLevel'];
+        	}
+            $prices[$itemCode] = [
                 'location_id' => $order['LocationId'],
                 'price' => ($order['UnitPriceSilver']/10000)
             ];
@@ -78,7 +84,7 @@ function getLatestPrices($items, $tiers, $rarity, $location) {
 			$itemType = "T".$tier."_".$item;
 			// Prevent rarity call if tier > 0
 			if ($rarity > 0 && $tier > 3) {
-				$itemType .= RARITY_STRING.$rarity;
+				$itemType .= '_LEVEL'.$rarity;
 			}
 
 			$selectStatement->execute([$itemType, $location]);

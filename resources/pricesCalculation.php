@@ -115,7 +115,6 @@ function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarity, $taxe, $
 
 		$itemPrices = getLatestPrices(array_keys($itemRecipes), $tiers, $rarity, $location);
 
-
 		foreach ($tiers as $tier) {
 
 			if (!empty($resourcesPrices['PLANKS'][$tier]) && !empty($resourcesPrices['METALBAR'][$tier])
