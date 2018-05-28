@@ -8,7 +8,9 @@ require_once("../config.php");
 require_once("../resources/pricesHistory.php");
 require_once("../resources/pricesCalculation.php");
 
-$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], 0);
+$tier = (isset($_GET['tier']) && $_GET['tier'] >= 0 && $_GET['tier'] <= 3) ? $_GET['tier'] : 0;
+
+$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $tier);
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
 $refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $refiningCosts);
 
