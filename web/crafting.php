@@ -13,4 +13,5 @@ $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerl
 $resourcesPrices = getLatestPrices($resourcesTypes, [3, 4, 5, 6, 7, 8], $rarity, $location);
 $craftingProfits = getCraftingProfit($recipes, [4, 5, 6, 7, 8], $resourcesPrices, $rarity, $taxe, $focus, $location);
 
-print_r($craftingProfits);
+$result = isset($_GET['noJson']) ? $craftingProfits : json_encode($craftingProfits);
+print_r($result);
