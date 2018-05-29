@@ -115,7 +115,7 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $rarity, $resources
 				$return[$refinedResourceType][$tier] = [
 					"raw_resource_cost" => $resourcesPrices[$rawResourceType][$tier],
 					"refined_resource_cost" => $resourcesPrices[$refinedResourceType][($tier-1)],
-					"selling price" => $resourcesPrices[$refinedResourceType][$tier],
+					"selling_price" => $resourcesPrices[$refinedResourceType][$tier],
 					"taxe" => $refiningTaxe,
 					"profit" => $profit
 				];
