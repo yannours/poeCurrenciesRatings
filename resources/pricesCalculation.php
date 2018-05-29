@@ -5,7 +5,7 @@
  */
 
 // Item value of all refined resources by tiers / rarity
-const REFINED_RESOURCES_VALUE = [
+define('REFINED_RESOURCES_VALUE', serialize([
    2 => [0 => 0], // It's 2 in reality, but crafting fee is null for T2
    3 => [0 => 6],
    4 => [
@@ -38,7 +38,7 @@ const REFINED_RESOURCES_VALUE = [
 			2 => 1014.02,
 			3 => 2021.98
 		]
-];
+]));
 
 /**
  * Calculate refining cost using only resources price
@@ -97,12 +97,14 @@ function getResourcesRefiningCost($resourcesTypes, $tiers, $resourcesPrices) {
 function getResourcesRefiningProfit($resourcesTypes, $tiers, $rarity, $resourcesPrices, $refiningCosts, $taxe, $focus) {
 
    $return = [];
+   $refined_resources_value = unserialize(REFINED_RESOURCES_VALUE);
+
 
    foreach ($resourcesTypes as $rawResourceType => $refinedResourceType) {
 	   foreach ($tiers as $tier) {
 		   	if (!empty($resourcesPrices[$refinedResourceType][$tier]) && ! empty($refiningCosts[$refinedResourceType][$tier])) {
 
-				$refiningTaxe = ceil(REFINED_RESOURCES_VALUE[$tier][$rarity] * 5 * $taxe / 100);
+				$refiningTaxe = ceil($refined_resources_value[$tier][$rarity] * 5 * $taxe / 100);
 				// Profit = Selling price * return rate (base on 15% rr) * (1- selling taxes) - (resource cost + crafting taxes)
 				// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
 				// Return rate : 45% with focus, 15% without. Assuming the return is fully craft without focus
@@ -136,6 +138,7 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $rarity, $resources
 function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarity, $taxe, $focus, $location) {
 
    	$return = [];
+    $refined_resources_value = unserialize(REFINED_RESOURCES_VALUE);
 
 	foreach ($recipes as $group => $subGroup) {
 
@@ -162,7 +165,7 @@ function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarity, $taxe, $
 							if(!empty($itemPrices[$code][$tier])) {
 								// $craftingTaxe is equals to the sum of the item value of all items used in the recipe, x 5 x taxing rate
 							   	$craftingTaxe = ($recipe['resources'][0] + $recipe['resources'][1] + $recipe['resources'][2] + $recipe['resources'][3]) *
-		 						REFINED_RESOURCES_VALUE[$tier][$rarity] * 5 * ($taxe / 100);
+		 						$refined_resources_value[$tier][$rarity] * 5 * ($taxe / 100);
 								$sellingPrice = $itemPrices[$code][$tier];
 								$resourcesCost = $recipe['resources'][0] * $plankPrice + $recipe['resources'][1] * $metalbarPrice
 												+ $recipe['resources'][2] * $leatherPrice + $recipe['resources'][3] * $clothPrice;
