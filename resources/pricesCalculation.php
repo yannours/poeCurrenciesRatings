@@ -4,6 +4,42 @@
  * File with all functions calculing prices
  */
 
+// Item value of all refined resources by tiers / rarity
+define('REFINED_RESOURCES_VALUE', [
+   2 => [0 => 0], // It's 2 in reality, but crafting fee is null for T2
+   3 => [0 => 6],
+   4 => [
+			0 => 14,
+			1 => 30,
+			2 => 54,
+			3 => 102
+		],
+   5 => [
+			0 => 30.02,
+			1 => 61.98,
+			2 => 118.02,
+			3 => 229.98
+		],
+   6 => [
+			0 => 62.02,
+			1 => 125.98,
+			2 => 246.02,
+			3 => 485.98
+		],
+   7 => [
+			0 => 126.02,
+			1 => 253.98,
+			2 => 502.02,
+			3 => 997.98
+		],
+   8 => [
+			0 => 254.02,
+			1 => 509.98,
+			2 => 1014.02,
+			3 => 2021.98
+		]
+]);
+
 /**
  * Calculate refining cost using only resources price
  * $resourcesTypes = ["WOOD" => "PLANKS", ...]
@@ -60,49 +96,13 @@ function getResourcesRefiningCost($resourcesTypes, $tiers, $resourcesPrices) {
 */
 function getResourcesRefiningProfit($resourcesTypes, $tiers, $rarity, $resourcesPrices, $refiningCosts, $taxe, $focus) {
 
-	// Tier => Rarity => item value
-	$itemValue = [
-	   2 => [0 => 0], // It's 2 in reality, but crafting fee is null for T2
-	   3 => [0 => 6],
-	   4 => [
-				0 => 14,
-				1 => 30,
-				2 => 54,
-				3 => 102
-			],
-	   5 => [
-				0 => 30.02,
-				1 => 61.98,
-				2 => 118.02,
-				3 => 229.98
-			],
-	   6 => [
-				0 => 62.02,
-				1 => 125.98,
-				2 => 246.02,
-				3 => 485.98
-			],
-	   7 => [
-				0 => 126.02,
-				1 => 253.98,
-				2 => 502.02,
-				3 => 997.98
-			],
-	   8 => [
-				0 => 254.02,
-				1 => 509.98,
-				2 => 1014.02,
-				3 => 2021.98
-			]
-	];
-
    $return = [];
 
    foreach ($resourcesTypes as $rawResourceType => $refinedResourceType) {
 	   foreach ($tiers as $tier) {
 		   	if (!empty($resourcesPrices[$refinedResourceType][$tier]) && ! empty($refiningCosts[$refinedResourceType][$tier])) {
 
-				$refiningTaxe = ceil($itemValue[$tier][$rarity] * 5 * $taxe / 100);
+				$refiningTaxe = ceil(REFINED_RESOURCES_VALUE[$tier][$rarity] * 5 * $taxe / 100);
 				// Profit = Selling price * return rate (base on 15% rr) * (1- selling taxes) - (resource cost + crafting taxes)
 				// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
 				// Return rate : 45% with focus, 15% without. Assuming the return is fully craft without focus
@@ -137,43 +137,53 @@ function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarity, $taxe, $
 
    	$return = [];
 
-	foreach ($recipes as $group => $itemRecipes) {
+	foreach ($recipes as $group => $subGroup) {
 
-		$itemPrices = getLatestPrices(array_keys($itemRecipes), $tiers, $rarity, $location);
+		if ($group === "Consumable") {
+			continue; //TODO
+		} else {
 
-		foreach ($tiers as $tier) {
+			foreach ($subGroup as $subGroupName => $itemRecipes) {
 
-			if (!empty($resourcesPrices['PLANKS'][$tier]) && !empty($resourcesPrices['METALBAR'][$tier])
-				&& !empty($resourcesPrices['LEATHER'][$tier])  && !empty($resourcesPrices['CLOTH'][$tier])) {
+				$itemPrices = getLatestPrices(array_keys($itemRecipes), $tiers, $rarity, $location);
 
-				$plankPrice = $resourcesPrices['PLANKS'][$tier];
-				$metalbarPrice = $resourcesPrices['METALBAR'][$tier];
-				$leatherPrice = $resourcesPrices['LEATHER'][$tier];
-				$clothPrice = $resourcesPrices['CLOTH'][$tier];
+				foreach ($tiers as $tier) {
 
-				foreach ($itemRecipes as $code => $recipe) {
+					if (!empty($resourcesPrices['PLANKS'][$tier]) && !empty($resourcesPrices['METALBAR'][$tier])
+						&& !empty($resourcesPrices['LEATHER'][$tier])  && !empty($resourcesPrices['CLOTH'][$tier])) {
 
-					if(!empty($itemPrices[$code][$tier])) {
-					   	$taxe = 0;
-						$sellingPrice = $itemPrices[$code][$tier];
-						$resourcesCost = $recipe['resources'][0] * $plankPrice + $recipe['resources'][1] * $metalbarPrice
-										+ $recipe['resources'][2] * $leatherPrice + $recipe['resources'][3] * $clothPrice;
-						$returnRate = $focus ? 0.45 : 0.15 ;
-						// Profit = Selling price * (1- selling taxes) - (resource cost * (1 - return rate) + crafting taxes)
-						// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
-						// Return rate : 45% with focus, 15% without.
-						$profit = $sellingPrice * 0.96 - ($resourcesCost * (1-$returnRate) + $taxe);
+						$plankPrice = $resourcesPrices['PLANKS'][$tier];
+						$metalbarPrice = $resourcesPrices['METALBAR'][$tier];
+						$leatherPrice = $resourcesPrices['LEATHER'][$tier];
+						$clothPrice = $resourcesPrices['CLOTH'][$tier];
 
-						$return[$group][$code][$tier] = [
-						   "resources_cost" => $resourcesCost,
-						   "selling price" => $sellingPrice,
-						   "taxe" => $taxe,
-						   "profit" => $profit
-						];
+						foreach ($itemRecipes as $code => $recipe) {
+
+							if(!empty($itemPrices[$code][$tier])) {
+								// $craftingTaxe is equals to the sum of the item value of all items used in the recipe, x 5 x taxing rate
+							   	$craftingTaxe = ($recipe['resources'][0] + $recipe['resources'][1] + $recipe['resources'][2] + $recipe['resources'][3]) *
+		 						REFINED_RESOURCES_VALUE[$tier][$rarity] * 5 * ($taxe / 100);
+								$sellingPrice = $itemPrices[$code][$tier];
+								$resourcesCost = $recipe['resources'][0] * $plankPrice + $recipe['resources'][1] * $metalbarPrice
+												+ $recipe['resources'][2] * $leatherPrice + $recipe['resources'][3] * $clothPrice;
+								$returnRate = $focus ? 0.45 : 0.15 ;
+								// Profit = Selling price * (1- selling taxes) - (resource cost * (1 - return rate) + crafting taxes)
+								// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
+								// Return rate : 45% with focus, 15% without.
+								$profit = $sellingPrice * 0.96 - ($resourcesCost * (1-$returnRate) + $craftingTaxe);
+
+								$return[$group][$subGroupName][$code][$tier] = [
+								   "resources_cost" => $resourcesCost,
+								   "selling price" => $sellingPrice,
+								   "taxe" => $craftingTaxe,
+								   "profit" => $profit
+								];
+							}
+						}
 					}
 				}
-			}
-	   }
+		   	}
+		}
    }
 
    return $return;
