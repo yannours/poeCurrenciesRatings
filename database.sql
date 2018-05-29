@@ -2,7 +2,7 @@ CREATE TABLE `item_latest_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_type` varchar(200) NOT NULL,
   `location_id` int(11) NOT NULL,
-  `price` varchar(45) NOT NULL,
+  `price` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `item_type__location_UNIQUE` (`item_type`,`location_id`)
@@ -12,7 +12,7 @@ CREATE TABLE `item_prices_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_type` varchar(200) NOT NULL,
   `location_id` int(11) NOT NULL,
-  `price` varchar(45) NOT NULL,
+  `price` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=latin1;
