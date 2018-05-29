@@ -17,5 +17,8 @@ $resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $res
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
 $refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $rarity, $resourcesPrices, $refiningCosts, $taxe, $focus);
 
-$result = isset($_GET['noJson']) ? $refiningProfits : json_encode($refiningProfits);
-print_r($result);
+if (isset($_GET['noJson'])) {
+	echo "<pre>".print_r($refiningProfits, true)."</pre>";
+} else {
+	print_r(json_encode($refiningProfits));
+}
