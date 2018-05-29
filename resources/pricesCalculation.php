@@ -5,7 +5,7 @@
  */
 
 // Item value of all refined resources by tiers / rarity
-define('REFINED_RESOURCES_VALUE', [
+const REFINED_RESOURCES_VALUE = [
    2 => [0 => 0], // It's 2 in reality, but crafting fee is null for T2
    3 => [0 => 6],
    4 => [
@@ -38,7 +38,7 @@ define('REFINED_RESOURCES_VALUE', [
 			2 => 1014.02,
 			3 => 2021.98
 		]
-]);
+];
 
 /**
  * Calculate refining cost using only resources price
