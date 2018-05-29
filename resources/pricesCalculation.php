@@ -177,7 +177,7 @@ function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarity, $taxe, $
 
 								$return[$group][$subGroupName][$code][$tier] = [
 								   "resources_cost" => $resourcesCost,
-								   "selling price" => $sellingPrice,
+								   "selling_price" => $sellingPrice,
 								   "taxe" => $craftingTaxe,
 								   "profit" => $profit
 								];
