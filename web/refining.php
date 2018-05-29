@@ -15,7 +15,7 @@ $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerl
 
 $resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $rarity, $location);
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
-$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices, $refiningCosts, $taxe, $focus);
+$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $rarity, $resourcesPrices, $refiningCosts, $taxe, $focus);
 
 $result = isset($_GET['noJson']) ? $refiningProfits : json_encode($refiningProfits);
 print_r($result);
