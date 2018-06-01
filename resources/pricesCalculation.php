@@ -110,13 +110,13 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $rarities, $resourc
 					// Selling taxe : 2% selling taxe + 1% per sale order, made 2 times if the first one fail
 					// Return rate : 45% with focus, 15% without. Assuming the return is fully craft without focus
 					$returnRate = $focus ? 1.53 : 1.175 ;
-					$profit = round($resourcesPrices[$refinedResourceType][$tier]*$returnRate*0.96
+					$profit = round($resourcesPrices[$refinedResourceType][$tier][$rarity]*$returnRate*0.96
 						- ($refiningCosts[$refinedResourceType][$tier] + $refiningTaxe*$returnRate));
 
 					$return[$refinedResourceType][$tier][$rarity] = [
-						"raw_resource_cost" => $resourcesPrices[$rawResourceType][$tier],
-						"refined_resource_cost" => $resourcesPrices[$refinedResourceType][($tier-1)],
-						"selling_price" => $resourcesPrices[$refinedResourceType][$tier],
+						"raw_resource_cost" => $resourcesPrices[$rawResourceType][$tier][$rarity],
+						"refined_resource_cost" => $resourcesPrices[$refinedResourceType][($tier-1)][$rarity],
+						"selling_price" => $resourcesPrices[$refinedResourceType][$tier][$rarity],
 						"taxe" => $refiningTaxe,
 						"profit" => $profit
 					];

@@ -32,20 +32,20 @@ function savePricesToDB($ordersList) {
     $insertStatement = $dbConnection->prepare("INSERT INTO item_prices_history (item_type, location_id, price) VALUES(?, ?, ?)");
 
     foreach ($ordersList as $order) {
+		if ($order['AuctionType'] == 'offer') {
+	        if (empty($prices[$order['ItemGroupTypeId']]) or $order['UnitPriceSilver'] < $prices[$order['ItemGroupTypeId']]['price']) {
 
-        if (empty($prices[$order['ItemGroupTypeId']]) or $order['UnitPriceSilver'] < $prices[$order['ItemGroupTypeId']]['price']) {
-
-        	// For some enchanted items, the "_LEVELX" string is not set
-        	$itemCode = $order['ItemGroupTypeId'];
-        	if ($order['EnchantmentLevel'] > 0 and substr($itemCode, -7, -1) !== '_LEVEL') {
-        		$itemCode .= '_LEVEL'.$order['EnchantmentLevel'];
-        	}
-            $prices[$itemCode] = [
-                'location_id' => $order['LocationId'],
-                'price' => ($order['UnitPriceSilver']/10000)
-            ];
-        }
-
+	        	// For some enchanted items, the "_LEVELX" string is not set
+	        	$itemCode = $order['ItemGroupTypeId'];
+	        	if ($order['EnchantmentLevel'] > 0 and substr($itemCode, -7, -1) !== '_LEVEL') {
+	        		$itemCode .= '_LEVEL'.$order['EnchantmentLevel'];
+	        	}
+	            $prices[$itemCode] = [
+	                'location_id' => $order['LocationId'],
+	                'price' => ($order['UnitPriceSilver']/10000)
+	            ];
+	        }
+	    }
     }
 
 
