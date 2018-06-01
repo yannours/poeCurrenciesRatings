@@ -9,6 +9,7 @@ require_once("../resources/pricesHistory.php");
 require_once("../resources/pricesCalculation.php");
 
 $rarities = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? [$_GET['rarity']] : [0, 1] ;
+$days = isset($_GET['days']) ? $_GET['days'] : 5;
 $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerleon
 
 $itemsToProcess = [];
@@ -39,7 +40,7 @@ $itemsToProcess[] = 'T6_POTION_COOLDOWN';
 $itemsToProcess[] = 'T8_POTION_COOLDOWN';
 
 // Get prices
-$resourcesMinMaxPrices = getMinMaxPrices($itemsToProcess, 5, $location);
+$resourcesMinMaxPrices = getMinMaxPrices($itemsToProcess, $days, $location);
 
 if (isset($_GET['noJson'])) {
 	echo "<pre>".print_r($resourcesMinMaxPrices, true)."</pre>";
