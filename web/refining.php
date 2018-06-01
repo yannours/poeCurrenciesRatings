@@ -13,7 +13,7 @@ $focus = isset($_GET['focus']) ? true : false ;
 $taxe = isset($_GET['taxe']) ? $_GET['taxe'] : 22;
 $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerleon
 
-$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $rarities, $location);
+$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), $location, [3, 4, 5, 6, 7, 8], $rarities);
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
 $refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $rarities, $resourcesPrices, $refiningCosts, $taxe, $focus);
 

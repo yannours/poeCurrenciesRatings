@@ -10,7 +10,7 @@ $focus = isset($_GET['focus']) ? true : false ;
 $taxe = isset($_GET['taxe']) ? $_GET['taxe'] : 22;
 $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerleon
 
-$resourcesPrices = getLatestPrices($resourcesTypes, [3, 4, 5, 6, 7, 8], $rarities, $location);
+$resourcesPrices = getLatestPrices($resourcesTypes, $location, [3, 4, 5, 6, 7, 8], $rarities);
 $craftingProfits = getCraftingProfit($recipes, [4, 5, 6, 7, 8], $resourcesPrices, $rarities, $taxe, $focus, $location);
 
 if (isset($_GET['noJson'])) {
