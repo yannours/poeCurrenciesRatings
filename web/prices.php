@@ -41,7 +41,7 @@ $itemsToProcess[] = 'T8_POTION_COOLDOWN';
 // Get prices
 $resourcesMinMaxPrices = getMinMaxPrices($itemsToProcess, 5, $location);
 
-if (!isset($_GET['noJson'])) {
+if (isset($_GET['noJson'])) {
 	echo "<pre>".print_r($resourcesMinMaxPrices, true)."</pre>";
 } else {
 	print_r(json_encode($resourcesMinMaxPrices));
