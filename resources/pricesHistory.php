@@ -113,8 +113,8 @@ function getMinMaxPrices($items, $days, $location) {
 	$minDate = date(DATE_ATOM, mktime(date("H") - 24 * $days));
 
 	$dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
-	$minStatement = $dbConnection->prepare("SELECT min(price) FROM item_prices_history WHERE item_type = ? AND date > '.$minDate.' AND location_id = ?");
-	$maxStatement = $dbConnection->prepare("SELECT max(price) FROM item_prices_history WHERE item_type = ? AND date > '.$minDate.' AND location_id = ?");
+	$minStatement = $dbConnection->prepare("SELECT min(price) FROM item_prices_history WHERE item_type = ? AND date > \''.$minDate.'\' AND location_id = ?");
+	$maxStatement = $dbConnection->prepare("SELECT max(price) FROM item_prices_history WHERE item_type = ? AND date > \''.$minDate.'\' AND location_id = ?");
 
 	$currentPrices = getLatestPrices($items, $location);
 
