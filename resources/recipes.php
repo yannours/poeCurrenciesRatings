@@ -9,6 +9,20 @@
 
 // Ressources : ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH']
 $recipes = [
+	'Accessories' => [
+		'Bag' => [
+			'BAG' => [
+				'name' => 'Bag',
+				'resources' => [0,0,8,8]
+			]
+		],
+		'Cape' => [
+			'CAPE' => [
+				'name' => 'Cape',
+				'resources' => [0,0,4,4]
+			]
+		]
+	],
 	'Ranged' => [
 		'Bow' => [
 			'2H_BOW' => [
@@ -38,20 +52,6 @@ $recipes = [
 			// 	'resources' => [32,0,0,0],
 			// 	'artifacts' => 'ARTEFACT_2H_LONGBOW_UNDEAD',
 			// ]
-		]
-	],
-	'Accessories' => [
-		'Bag' => [
-			'BAG' => [
-				'name' => 'Bag',
-				'resources' => [0,0,8,8]
-			]
-		],
-		'Cape' => [
-			'CAPE' => [
-				'name' => 'Cape',
-				'resources' => [0,0,4,4]
-			]
 		]
 	],
 	'Consumable' => [

@@ -8,14 +8,14 @@ require_once("../config.php");
 require_once("../resources/pricesHistory.php");
 require_once("../resources/pricesCalculation.php");
 
-$rarity = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? $_GET['rarity'] : 0 ;
+$rarities = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? [$_GET['rarity']] : [0, 1] ;
 $focus = isset($_GET['focus']) ? true : false ;
 $taxe = isset($_GET['taxe']) ? $_GET['taxe'] : 22;
 $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerleon
 
-$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $rarity, $location);
+$resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), [3, 4, 5, 6, 7, 8], $rarities, $location);
 $refiningCosts = getResourcesRefiningCost($resourcesTypes, [4, 5, 6, 7, 8], $resourcesPrices);
-$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $rarity, $resourcesPrices, $refiningCosts, $taxe, $focus);
+$refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $rarities, $resourcesPrices, $refiningCosts, $taxe, $focus);
 
 if (isset($_GET['noJson'])) {
 	echo "<pre>".print_r($refiningProfits, true)."</pre>";

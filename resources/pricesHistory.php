@@ -71,7 +71,7 @@ function savePricesToDB($ordersList) {
  *		]
  *	]
  */
-function getLatestPrices($items, $tiers, $rarity, $location) {
+function getLatestPrices($items, $tiers, $rarities, $location) {
 
     $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
 	$selectStatement = $dbConnection->prepare("SELECT price FROM item_latest_price WHERE item_type = ? AND location_id = ?");
@@ -80,18 +80,19 @@ function getLatestPrices($items, $tiers, $rarity, $location) {
 
 	foreach ($items as $item) {
 		foreach ($tiers as $tier) {
-			// Call API
-			$itemType = "T".$tier."_".$item;
-			// Prevent rarity call if tier > 0
-			if ($rarity > 0 && $tier > 3) {
-				$itemType .= '_LEVEL'.$rarity;
-			}
+			foreach ($rarities as $rarity) {
+				// Call API
+				$itemType = "T".$tier."_".$item;
+				// Prevent rarity call if tier > 0
+				if ($rarity > 0 && $tier > 3) {
+					$itemType .= '_LEVEL'.$rarity;
+				}
 
-			$selectStatement->execute([$itemType, $location]);
-			if($price = $selectStatement->fetchColumn()) {
-				$prices[$item][$tier] = $price;
+				$selectStatement->execute([$itemType, $location]);
+				if($price = $selectStatement->fetchColumn()) {
+					$prices[$item][$tier] = $price;
+				}
 			}
-
 		}
 	}
 
