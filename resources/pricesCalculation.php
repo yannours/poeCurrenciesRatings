@@ -196,3 +196,41 @@ function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarities, $taxe,
 
    return $return;
 }
+
+/**
+* Calculate stats about price of items from current, min and max prices
+* Return array with all needed informations
+*/
+function getPricesStats($prices, $range = 10) {
+
+   	$stats = [];
+
+	foreach ($prices as $itemCode => $itemDatas) {
+
+		if (!empty($itemDatas['min']) && !empty($itemDatas['max']) ) {
+			$currentPrice = $itemDatas['current'];
+			$minPrice = $itemDatas['min'];
+			$maxPrice = $itemDatas['max'];
+
+			$priceTotalRange = $maxPrice - $minPrice;
+			$priceSmallRange = $priceTotalRange * $range / 100;
+
+			$minRangePrice = $minPrice + $priceSmallRange;
+			$maxRangePrice = $maxPrice - $priceSmallRange;
+
+			$variation = round($priceTotalRange * 100 / $currentPrice);
+
+			$action = ($variation > 10 && $currentPrice <= $minRangePrice) ? 'Buy' : (($variation > 10 && $currentPrice >= $maxRangePrice) ? 'Sell' : 'Wait');
+
+			$stats[$itemCode]['currentPrice'] = $currentPrice;
+			$stats[$itemCode]['minPrice'] = $minPrice;
+			$stats[$itemCode]['maxPrice'] = $maxPrice;
+			$stats[$itemCode]['minRangePrice'] = $minRangePrice;
+			$stats[$itemCode]['maxRangePrice'] = $maxRangePrice;
+			$stats[$itemCode]['action'] = $action;
+			$stats[$itemCode]['variation'] = $variation.'%';
+		}
+   }
+
+   return $stats;
+}
