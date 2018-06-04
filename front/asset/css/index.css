@@ -1,0 +1,142 @@
+html {
+	font-family: 'Open Sans', sans-serif;
+}
+
+body {
+	background-image: url(../img/bg.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow-y: hidden;
+	font-family: 'Open Sans', sans-serif;
+}
+
+section {
+	height: 100%;
+	scroll: auto;
+}
+
+table { 
+	border-collapse: collapse;
+	color: white;
+}
+tr {
+	border: none; 
+}
+td {
+	border-right: solid 1px rgba(0,0,0,0.9); 
+	border-left: solid 1px rgba(0,0,0,0.9);
+}
+
+.table>thead>tr>td {
+	padding-bottom: 15px;
+}
+
+.table>thead>tr>td:last-child,
+.table>tbody>tr>td:last-child {
+	border-right: none;
+}
+
+.table>thead>tr>td:first-child,
+.table>tbody>tr>td:first-child {
+	border-left: none;
+}
+
+.table>tbody>tr>td {
+	border-top: none;
+	border-bottom: none;
+	vertical-align: middle;
+	padding: 0;
+}
+
+.table>tbody>tr:hover {
+	background-color: rgba(255,255,255,0.1);
+}
+
+.container {
+	height: 100%;
+	padding-top: 30px;
+}
+
+.row {
+	max-height: 100%;
+	margin: 0;
+}
+
+.panel {
+	max-height: 100%;
+	border: 0;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	background-color: rgba(255,255,255,0) !important;
+}
+
+.panel-heading {
+	font-style: bold;
+	background-color: #531405 !important;
+	color: white !important;
+	border-color: #531405 !important;
+}
+
+.panel-body {
+	background-color: rgba(26,26,26,0.8) !important;
+	color: white !important;
+	border-color: #1a1a1a !important;
+	max-height: 80%;
+	overflow-y: auto;
+	border: 2px;
+	border-bottom-right-radius: 9px;
+	border-bottom-left-radius: 9px;
+}
+
+.dropdown-menu>li>a,
+.dropdown-menu,
+.navbar {
+	background-color: #531405 !important;
+	color: #ffdfbc !important;
+	border-color: #531405 !important;
+	font-style: bold;
+}
+
+.navbar:hover,
+.navbar-default .navbar-nav>li>a {
+	color: #ffdfbc;
+}
+
+.navbar-dropdown-item:hover,
+.dropdown-menu>li>a:hover,
+.navbar-brand:hover,
+.navbar.active,
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+	color: #ffdfbc !important;
+	background-color: #c63000 !important;
+	border-color: #c63000 !important;
+}
+
+.dropdown-menu,
+.navbar-brand {
+	color: white !important;
+}
+
+.navbar-default .navbar-nav>.active>a {
+	color: white;
+	background-color: #c63000;
+}
+
+.loading {
+	display: block;
+    height: 30%;
+    background-repeat: no-repeat;
+    background-image: url(../img/loading.gif);
+    margin: 0 35%;
+    background-size: contain;
+}
+
+.item-img {
+	width: 30%;
+}
+
+.refined-item {
+	text-align: center;
+}

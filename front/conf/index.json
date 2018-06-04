@@ -1,0 +1,38 @@
+{
+	"albion": {
+		"meta": {
+			"icons": {
+				"base": "https://gameinfo.albiononline.com/api/gameinfo/items/T",
+				"ext": ".png"
+			},
+			"ranks": ["2", "3", "4", "5", "6", "7", "8"],
+			"saltanAPI": {
+				"base": "https://saltan.pouicou.fr",
+				"refined": "/refining.php"
+			},
+			"columns": {
+				"raw_resource_cost": "Raw Cost",
+				"refined_resource_cost": "Refined Cost",
+				"selling_price": "Selling Price",
+				"taxe": "Taxes",
+				"profit": "Profits"
+			}
+		},
+		"game": {
+			"ressources": [
+				"WOOD",
+				"ORE",
+				"HIDE",
+				"FIBER",
+				"STONE"
+			],
+			"refined": [
+				"PLANKS",
+				"METALBAR",
+				"LEATHER",
+				"CLOTH",
+				"STONEBLOCK"
+			]
+		}
+	}
+}
