@@ -17,21 +17,3 @@ To use and work with you project, you have to :
 5 - Profit
 
 More on ADC : https://github.com/broderickhyman/albiondata-client
-
-Note on location codes :
-$locationsCode = [
-	-1 => "Unknown",
-	0 => "ThetfordMarket",
-	1000 => "LymhurstMarket",
-	2000 => "BridgewatchMarket",
-	3003 => "BlackMarket",
-	3004 => "MartlockMarket",
-	3005 => "CaerleonMarket",
-	4000 => "FortSterlingMarket",
-
-	4 => "SwampCrossMarket",
-	1006 => "ForestCrossMarket",
-	2002 => "SteppeCrossMarket",
-	3002 => "HighlandCrossMarket",
-	4006 => "MountainCrossMarket",
-];
