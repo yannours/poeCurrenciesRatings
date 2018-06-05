@@ -22,7 +22,7 @@
  *  ];
  */
 
-require_once("../databaseConfig.php");
+require_once(__DIR__."/../config/databaseConfig.php");
 
 /**
  * Return the minimal price of all $items presents in $ordersList
@@ -89,23 +89,27 @@ function getLatestPrices($items, $location, $tiers = null, $rarities = null) {
 		if ($tiers) {
 			foreach ($tiers as $tier) {
 
-				$itemType = "T".$tier."_".$item;
+				$itemId = "T".$tier."_".$item;
 
 				if ($rarities) {
 					foreach ($rarities as $rarity) {
 
 						// Prevent rarity call if tier > 0
 						if ($rarity > 0 && $tier > 3) {
-							$itemType .= '_LEVEL'.$rarity;
+							// Special case : resources
+							if (in_array($item, ["WOOD", "PLANKS", "ORE", "METALBAR", "HIDE", "LEATHER", "FIBER", "CLOTH", "ROCK", "STONEBLOCK"])) {
+								$itemId .= '_LEVEL'.$rarity;
+							}
+							$itemId .= '@'.$rarity;
 						}
 
-						$selectStatement->execute([$itemType, $location]);
+						$selectStatement->execute([$itemId, $location]);
 						if($price = $selectStatement->fetchColumn()) {
-							$prices[$item][$tier] = $price;
+							$prices[$item][$tier][$rarity] = $price;
 						}
 					}
 				} else {
-					$selectStatement->execute([$itemType, $location]);
+					$selectStatement->execute([$itemId, $location]);
 					if($price = $selectStatement->fetchColumn()) {
 						$prices[$item][$tier] = $price;
 					}
