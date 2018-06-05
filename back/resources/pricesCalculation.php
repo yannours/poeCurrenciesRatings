@@ -92,20 +92,18 @@ function getPricesStats($prices, $range = 10) {
 			$maxPrice = $itemDatas['max'];
 
 			$priceTotalRange = $maxPrice - $minPrice;
-			$priceSmallRange = $priceTotalRange * $range / 100;
-
-			$minRangePrice = $minPrice + $priceSmallRange;
-			$maxRangePrice = $maxPrice - $priceSmallRange;
+			$buyLevel = $range;
+			$sellLevel = (100 - $range);
+			$currentLevel = round(($currentPrice - $minPrice)*100 / $priceTotalRange);
 
 			$variation = round($priceTotalRange * 100 / $currentPrice);
 
-			$action = ($variation > 10 && $currentPrice <= $minRangePrice) ? 'Buy' : (($variation > 10 && $currentPrice >= $maxRangePrice) ? 'Sell' : 'Wait');
+			$action = ($variation > 10 && $currentLevel <= $buyLevel) ? 'Buy' : (($variation > 10 && $currentLevel >= $sellLevel) ? 'Sell' : 'Wait');
 
 			$stats[$itemCode]['currentPrice'] = $currentPrice;
 			$stats[$itemCode]['minPrice'] = $minPrice;
 			$stats[$itemCode]['maxPrice'] = $maxPrice;
-			$stats[$itemCode]['minRangePrice'] = $minRangePrice;
-			$stats[$itemCode]['maxRangePrice'] = $maxRangePrice;
+			$stats[$itemCode]['currentLevel'] = ($currentLevel).'%';
 			$stats[$itemCode]['action'] = $action;
 			$stats[$itemCode]['variation'] = $variation.'%';
 		}
