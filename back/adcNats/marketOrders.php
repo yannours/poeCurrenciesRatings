@@ -39,14 +39,13 @@ while (1) {
 	$client->subscribe(
 	    'marketorders.ingest',
 	    function ($results) {
-
 	    	$results = json_decode($results->getBody(), true);
 
 	    	if(!empty($results['Orders'])) {
 	    		$ordersList = $results['Orders'];
 
 		        $prices = [];
-			    $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT."dbname=".DB_BASE, DB_USER, DB_PASSWORD);
+			    $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
 			    $insertStatement = $dbConnection->prepare("INSERT INTO item_prices_history (item_id, location, price) VALUES(?, ?, ?)");
 
 				// All order from the lists are processed in order to get, for each item, the cheaper one
@@ -56,15 +55,15 @@ while (1) {
 
 				            $prices[$order['ItemTypeId']] = [
 				                'location' => $order['LocationId'],
-				                'price' => ($order['UnitPriceSilver']/10000)
+				                'price' => $order['UnitPriceSilver']
 				            ];
 				        }
 				    }
 		    	}
 
 				// Once all prices are fixed, we update them into the database
-			    foreach ($prices as $item => $price) {
-			        $insertStatement->execute([$item, $price['location'], $price['price']]);
+			    foreach ($prices as $item => $priceDatas) {
+			        $insertStatement->execute([$item, $priceDatas['location'], ($priceDatas['price']/10000)]);
 			    }
 		    }
 	    }
