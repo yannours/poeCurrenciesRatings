@@ -111,7 +111,7 @@ function getResourcesRefiningProfit($resourcesTypes, $tiers, $rarities, $resourc
 					// Return rate : 100%-45% with focus, 100% - 15% without.
 					$resourcesUse = $focus ? 0.55 : 0.85 ;
 					$resourcesCost = $resourcesPrices[$refinedResourceType][($tier-1)][$rarity] + $resourcesPrices[$rawResourceType][$tier][$rarity] * $rawResourcesNeeded[$tier];
-					$profit = round($resourcesPrices[$refinedResourceType][$tier][$rarity]*$returnRate*0.96
+					$profit = round($resourcesPrices[$refinedResourceType][$tier][$rarity]*0.96
 						- ($resourcesCost*$resourcesUse + $refiningTaxe));
 
 					$return[$refinedResourceType][$tier][$rarity] = [
