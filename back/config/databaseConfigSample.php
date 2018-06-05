@@ -1,6 +1,6 @@
 <?php
 /**
- * Database configuration file. Rename to databaseConfig.phpt o get it work
+ * Database configuration file. Rename to databaseConfig.php to get it work
  */
 
 define('DB_HOST', "127.0.0.1");

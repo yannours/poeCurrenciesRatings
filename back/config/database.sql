@@ -17,6 +17,7 @@ CREATE TABLE `item_prices_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=latin1;
 
+-- Trigger to keep the table item_latest_price up to date
 DROP TRIGGER item_prices_history_insert;
 DELIMITER //
 CREATE TRIGGER item_prices_history_insert
