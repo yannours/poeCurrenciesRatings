@@ -3,8 +3,8 @@
  * This page calculate all refining price and display all the informations used to calculed it.
  */
 
-require_once("../resources/pricesHistory.php");
-require_once("../resources/pricesCalculation.php");
+require_once(__DIR__."../resources/pricesHistory.php");
+require_once(__DIR__."../resources/pricesCalculation.php");
 
 $rarities = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? [$_GET['rarity']] : [0, 1] ;
 $focus = isset($_GET['focus']) ? true : false ;

@@ -4,9 +4,9 @@
  */
 
 
-require_once("../config.php");
-require_once("../resources/pricesHistory.php");
-require_once("../resources/pricesCalculation.php");
+require_once(__DIR__."../config.php");
+require_once(__DIR__."../resources/pricesHistory.php");
+require_once(__DIR__."../resources/pricesCalculation.php");
 
 $rarities = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? [$_GET['rarity']] : [0, 1] ;
 $days = isset($_GET['days']) ? $_GET['days'] : 5;
@@ -15,7 +15,7 @@ $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerl
 $itemsToProcess = [];
 
 // Add resources to the list
-$tiers = [4, 5, 6, 7, 8];
+$tiers = [3, 4, 5, 6, 7, 8];
 foreach ($tiers as $tier) {
 	foreach ($rarities as $rarity) {
 		foreach ($resourcesTypes as $rawResource => $refinedResource) {
@@ -23,8 +23,8 @@ foreach ($tiers as $tier) {
 			$refinedResourceCode = 'T'.$tier.'_'.$refinedResource;
 
 			if ($rarity > 0 && $tier > 3 && $rawResource !== 'ROCK') {
-				$rawResourceCode .= '_LEVEL'.$rarity;
-				$refinedResourceCode .= '_LEVEL'.$rarity;
+				$rawResourceCode .= '_LEVEL'.$rarity.'@'.$rarity;
+				$refinedResourceCode .= '_LEVEL'.$rarity.'@'.$rarity;
 			}
 
 			$itemsToProcess[] = $rawResourceCode;

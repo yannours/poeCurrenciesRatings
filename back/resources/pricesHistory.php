@@ -1,78 +1,11 @@
 <?php
 
 /**
- * File with all functions managing prices on DB
+ * File with all functions managing prices on the DB
  *
- *  Note on location codes :
- *  $locationsCode = [
- *  	-1 => "Unknown",
- *  	0 => "ThetfordMarket",
- *  	1000 => "LymhurstMarket",
- *  	2000 => "BridgewatchMarket",
- *  	3003 => "BlackMarket",
- *  	3004 => "MartlockMarket",
- *  	3005 => "CaerleonMarket",
- *  	4000 => "FortSterlingMarket",
- *
- *  	4 => "SwampCrossMarket",
- *  	1006 => "ForestCrossMarket",
- *  	2002 => "SteppeCrossMarket",
- *  	3002 => "HighlandCrossMarket",
- *  	4006 => "MountainCrossMarket",
- *  ];
  */
 
 require_once(__DIR__."/../config/databaseConfig.php");
-
-/**
- * Return the minimal price of all $items presents in $ordersList
- * $orderList example :
- *        [0] => Array
- *          (
- *             [Id] => 149385216
- *             [ItemTypeId] => T4_ORE_LEVEL2@2
- *             [ItemGroupTypeId] => T4_ORE_LEVEL2
- *             [LocationId] => 3005
- *             [QualityLevel] => 1
- *             [EnchantmentLevel] => 2
- *             [UnitPriceSilver] => 80000
- *             [Amount] => 60
- *             [AuctionType] => offer
- *             [Expires] => 2018-06-22T14:26:16.20772
- *          )
- *        [1] => Array
- *          ( ... )
- */
-function savePricesToDB($ordersList) {
-
-    $prices = [];
-    $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
-    $insertStatement = $dbConnection->prepare("INSERT INTO item_prices_history (item_type, location_id, price) VALUES(?, ?, ?)");
-
-    foreach ($ordersList as $order) {
-		if ($order['AuctionType'] == 'offer') {
-	        if (empty($prices[$order['ItemGroupTypeId']]) or $order['UnitPriceSilver'] < $prices[$order['ItemGroupTypeId']]['price']) {
-
-	        	// For some enchanted items, the "_LEVELX" string is not set
-	        	$itemCode = $order['ItemGroupTypeId'];
-	        	if ($order['EnchantmentLevel'] > 0 and substr($itemCode, -7, -1) !== '_LEVEL') {
-	        		$itemCode .= '_LEVEL'.$order['EnchantmentLevel'];
-	        	}
-	            $prices[$itemCode] = [
-	                'location_id' => $order['LocationId'],
-	                'price' => ($order['UnitPriceSilver']/10000)
-	            ];
-	        }
-	    }
-    }
-
-
-    foreach ($prices as $item => $price) {
-        $insertStatement->execute([$item, $price['location_id'], $price['price']]);
-    }
-
-    return $prices;
-}
 
 
 /**
@@ -86,18 +19,18 @@ function getLatestPrices($items, $location, $tiers = null, $rarities = null) {
 	$prices = [];
 
 	foreach ($items as $item) {
-		if ($tiers) {
+		if (!empty($tiers)) {
 			foreach ($tiers as $tier) {
 
 				$itemId = "T".$tier."_".$item;
 
-				if ($rarities) {
+				if (!empty($rarities)) {
 					foreach ($rarities as $rarity) {
 
 						// Prevent rarity call if tier > 0
 						if ($rarity > 0 && $tier > 3) {
 							// Special case : resources
-							if (in_array($item, ["WOOD", "PLANKS", "ORE", "METALBAR", "HIDE", "LEATHER", "FIBER", "CLOTH", "ROCK", "STONEBLOCK"])) {
+							if (in_array($item, ["WOOD", "PLANKS", "ORE", "METALBAR", "HIDE", "LEATHER", "FIBER", "CLOTH"])) {
 								$itemId .= '_LEVEL'.$rarity;
 							}
 							$itemId .= '@'.$rarity;
