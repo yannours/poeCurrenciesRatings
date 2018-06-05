@@ -13,21 +13,20 @@ $location = isset($_GET['location']) ? $_GET['location'] : 3005; // 3005 : Caerl
 
 $itemsToProcess = [];
 
+$resourcesTypes = ["WOOD", "PLANKS", "ORE", "METALBAR", "HIDE", "LEATHER", "FIBER", "CLOTH", "ROCK", "STONEBLOCK"];
+
 // Add resources to the list
 $tiers = [3, 4, 5, 6, 7, 8];
 foreach ($tiers as $tier) {
 	foreach ($rarities as $rarity) {
-		foreach ($resourcesTypes as $rawResource => $refinedResource) {
-			$rawResourceCode = 'T'.$tier.'_'.$rawResource;
-			$refinedResourceCode = 'T'.$tier.'_'.$refinedResource;
+		foreach ($resourcesTypes as $resourceType) {
+			$resourceCode = 'T'.$tier.'_'.$resourceType;
 
-			if ($rarity > 0 && $tier > 3 && $rawResource !== 'ROCK') {
-				$rawResourceCode .= '_LEVEL'.$rarity.'@'.$rarity;
-				$refinedResourceCode .= '_LEVEL'.$rarity.'@'.$rarity;
+			if ($rarity > 0 && $tier > 3 && $resourceType !== 'ROCK' && $resourceType !== "STONEBLOCK") {
+				$resourceCode .= '_LEVEL'.$rarity.'@'.$rarity;
 			}
 
-			$itemsToProcess[] = $rawResourceCode;
-			$itemsToProcess[] = $refinedResourceCode;
+			$itemsToProcess[] = $resourceCode;
 		}
 	}
 }
@@ -39,8 +38,8 @@ $itemsToProcess[] = 'T6_POTION_COOLDOWN';
 $itemsToProcess[] = 'T8_POTION_COOLDOWN';
 
 // Get prices
-$resourcesMinMaxPrices = getMinMaxPrices($itemsToProcess, $days, $location);
-$stats = getPricesStats($resourcesMinMaxPrices);
+$minMaxPrices = getMinMaxPrices($itemsToProcess, $days, $location);
+$stats = getPricesStats($minMaxPrices);
 
 if (isset($_GET['noJson'])) {
 	echo "<pre>".print_r($stats, true)."</pre>";

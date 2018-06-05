@@ -14,7 +14,7 @@ require_once(__DIR__."/../config/databaseConfig.php");
 function getLatestPrices($items, $location, $tiers = null, $rarities = null) {
 
     $dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
-	$selectStatement = $dbConnection->prepare("SELECT price FROM item_latest_price WHERE item_type = ? AND location_id = ?");
+	$selectStatement = $dbConnection->prepare("SELECT price FROM item_latest_price WHERE item_id = ? AND location = ?");
 
 	$prices = [];
 
@@ -68,8 +68,8 @@ function getMinMaxPrices($items, $days, $location) {
 	$minDate = date(DATE_ATOM, mktime(date("H") - 24 * $days));
 
 	$dbConnection = new PDO("mysql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_BASE, DB_USER, DB_PASSWORD);
-	$minStatement = $dbConnection->prepare("SELECT min(price) FROM item_prices_history WHERE item_type = ? AND date > ? AND location_id = ?");
-	$maxStatement = $dbConnection->prepare("SELECT max(price) FROM item_prices_history WHERE item_type = ? AND date > ? AND location_id = ?");
+	$minStatement = $dbConnection->prepare("SELECT min(price) FROM item_prices_history WHERE item_id = ? AND updated_at > ? AND location = ?");
+	$maxStatement = $dbConnection->prepare("SELECT max(price) FROM item_prices_history WHERE item_id = ? AND updated_at > ? AND location = ?");
 
 	$currentPrices = getLatestPrices($items, $location);
 
