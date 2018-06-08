@@ -80,7 +80,7 @@ function getCraftingProfit($recipes, $tiers, $resourcesPrices, $rarities, $taxe,
 * Calculate stats about price of items from current, min and max prices
 * Return array with all needed informations
 */
-function getPricesStats($prices, $buyRange = 10, $sellRange = 20) {
+function getPricesStats($prices, $buyRange = 10, $sellRange = 30) {
 
    	$stats = [];
 
