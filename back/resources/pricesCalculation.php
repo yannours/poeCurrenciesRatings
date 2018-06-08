@@ -103,9 +103,9 @@ function getPricesStats($prices, $buyRange = 10, $sellRange = 20) {
 			$stats[$itemCode]['currentPrice'] = $currentPrice;
 			$stats[$itemCode]['minPrice'] = $minPrice;
 			$stats[$itemCode]['maxPrice'] = $maxPrice;
-			$stats[$itemCode]['currentLevel'] = ($currentLevel).'%';
-			$stats[$itemCode]['action'] = $action;
 			$stats[$itemCode]['variation'] = $variation.'%';
+			$stats[$itemCode]['action'] = $action;
+			$stats[$itemCode]['currentLevel'] = ($currentLevel).'%';
 		}
    }
 

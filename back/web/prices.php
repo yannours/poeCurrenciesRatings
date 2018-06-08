@@ -43,7 +43,7 @@ $minMaxPrices = getMinMaxPrices($itemsToProcess, $days, $location);
 $stats = getPricesStats($minMaxPrices);
 
 if (isset($_GET['noJson'])) {
-	printFrontArray('Albion Market Price', ['Item', 'currentPrice', 'minPrice', 'maxPrice', 'variation', 'action', 'currentLevel'], $stats);
+	printFrontArray('Evolution des prix sur '$days.' jours', ['Item', 'Prix actuel', 'Prix min', 'Prix max', 'Variation', 'action', 'Niveau actuel'], $stats);
 } else {
 	print_r(json_encode($stats));
 }
