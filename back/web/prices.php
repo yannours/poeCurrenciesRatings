@@ -6,6 +6,7 @@
 
 require_once(__DIR__."/../resources/pricesHistory.php");
 require_once(__DIR__."/../resources/pricesCalculation.php");
+require_once(__DIR__."/../resources/front.php");
 
 $rarities = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? [$_GET['rarity']] : [0, 1] ;
 $days = isset($_GET['days']) ? $_GET['days'] : 5;
@@ -42,7 +43,7 @@ $minMaxPrices = getMinMaxPrices($itemsToProcess, $days, $location);
 $stats = getPricesStats($minMaxPrices);
 
 if (isset($_GET['noJson'])) {
-	echo "<pre>".print_r($stats, true)."</pre>";
+	printFrontArray('Albion Market Price', ['Item', 'currentPrice', 'minPrice', 'maxPrice', 'variation', 'action', 'currentLevel'], $stats);
 } else {
 	print_r(json_encode($stats));
 }
