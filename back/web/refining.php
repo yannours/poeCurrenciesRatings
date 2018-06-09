@@ -22,7 +22,20 @@ $resourcesTypes = [
 $resourcesPrices = getLatestPrices(array_merge(array_keys($resourcesTypes), $resourcesTypes), $location, [3, 4, 5, 6, 7, 8], $rarities);
 $refiningProfits = getResourcesRefiningProfit($resourcesTypes, [4, 5, 6, 7, 8], $rarities, $resourcesPrices, $taxe, $focus);
 
-if (isset($_GET['noJson'])) {
+if (isset($_GET['noJson'])) {	
+	echo 'Usage :<br/>
+	noJson : Print this page<br/>
+	rarity=X : Specifie a rarity. Print .0 and .1 by default<br/>
+	focus : With focus. Default is without<br/>
+	taxe=XX : Refining building taxe. Default is 22%<br/>
+	location=XXXX : See list below. Default is Caerleon<br/>
+	0 => "Thetford"<br/>
+	1000 => "Lymhurst"<br/>
+	2000 => "Bridgewatch"<br/>
+	3004 => "Martlock"<br/>
+	3005 => "Caerleon"<br/>
+	4000 => "FortSterling"<br/>
+	Example : https://saltan.pouicou.fr/refining.php?noJson&rarity=2&focus&location=3004';
 	echo "<pre>".print_r($refiningProfits, true)."</pre>";
 } else {
 	print_r(json_encode($refiningProfits));
