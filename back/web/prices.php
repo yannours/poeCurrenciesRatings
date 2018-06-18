@@ -6,7 +6,7 @@
 
 require_once(__DIR__."/../resources/pricesHistory.php");
 require_once(__DIR__."/../resources/pricesCalculation.php");
-require_once(__DIR__."/../resources/front.php");
+require_once(__DIR__."/../resources/simpleFront.php");
 
 $rarities = (isset($_GET['rarity']) && $_GET['rarity'] >= 0 && $_GET['rarity'] <= 3) ? [$_GET['rarity']] : [0, 1] ;
 $days = isset($_GET['days']) ? $_GET['days'] : 5;
@@ -43,7 +43,7 @@ $minMaxPrices = getMinMaxPrices($itemsToProcess, $days, $location);
 $stats = getPricesStats($minMaxPrices);
 
 if (isset($_GET['noJson'])) {
-	printFrontArray('Evolution des prix sur '.$days.' jours', ['Item', 'Prix actuel', 'Prix min', 'Prix max', 'Variation', 'action', 'Niveau actuel'], $stats);
+	simpleFront::printArray('Evolution des prix sur '.$days.' jours', ['Item', 'Prix actuel', 'Prix min', 'Prix max', 'Variation', 'action', 'Niveau actuel'], $stats);
 } else {
 	print_r(json_encode($stats));
 }
